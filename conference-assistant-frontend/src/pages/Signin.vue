@@ -1,8 +1,9 @@
 <template>
-    <div class="sign-in-page">
-      <h3 style="text-align:center">로그인</h3>
-      <SigninForm @submit="onSubmit"/>
-    </div>
+    <v-layout column class="sign-in-page">
+        <v-flex>
+            <SigninForm @submit="onSubmit"/>
+        </v-flex>
+    </v-layout>
 </template>
 <script>
 import SigninForm from '../components/SigninForm'
@@ -21,5 +22,8 @@ export default {
 }
 </script>
 <style scoped>
+.sign-in-page{
+    border : none;
+}
 
 </style>
