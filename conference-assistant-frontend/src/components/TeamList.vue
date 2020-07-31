@@ -1,10 +1,24 @@
 <template>
     <div class="team-list">
-        <router-link class="router-profile" :to="{name: 'Signup'}">프로필 변경</router-link>
-        <TeamForm v-bind:teamlist="teamlist"></TeamForm>
-        <button type="button" @click="showModal">팀 추가하기</button>
-        <AddTeamModal v-show="isModalVisible" @close="closeModal" @create="showSecondModal"/>
-        <CreateTeamModal v-if="isStatusOn"  @submit="closeSecondModal" @close="closeSecondModal"/>
+        <v-layout column>
+            <v-layout row>
+                <v-flex>
+                    <img src="../img/profile.png" >
+                        <div class="div-info">
+                            <h2>user1</h2>
+                            <p>user1@google.com</p><br><br>
+                            <v-btn class="v-btn" rounded x-large color="#4CAF50" href="/Signup">프로필 변경</v-btn>
+                        </div>
+                </v-flex>
+            </v-layout>
+            <br><br><br><br>
+            <v-flex>
+                <TeamForm v-bind:teamlist="teamlist"></TeamForm>
+            </v-flex>
+            <button type="button" @click="showModal">팀 추가하기</button>
+            <AddTeamModal v-show="isModalVisible" @close="closeModal" @create="showSecondModal"/>
+            <CreateTeamModal v-if="isStatusOn"  @submit="closeSecondModal" @close="closeSecondModal"/>
+        </v-layout>
     </div>
 </template>
 <script>
@@ -89,6 +103,40 @@ export default {
 .team-list button[type="button"]:hover{
     background-color:rgb(141, 141, 141);
     color:#fff;
+}
+img{
+    margin-top: 112px;
+    margin-left: 5%;
+    max-width:100%;
+    height:auto;
+
+}
+span{
+    margin-left: 9%;
+    font-size: 22px;
+}
+p{
+    margin-left: 10%;
+    margin-bottom:-15%;
+    color:black;
+    font-size: medium;
+}
+.div-info{
+    display:inline-block;
+}
+h2{
+    margin-left: 8%;
+    margin-bottom: 1%;
+    font-weight: 500;
+}
+.v-btn{
+    color: #fff;
+    font-weight: 600;
+    font-size: 17px;
+    position:absolute;
+    height: auto;
+    max-width:120px;
+    right: 10%;
 }
 
 </style>

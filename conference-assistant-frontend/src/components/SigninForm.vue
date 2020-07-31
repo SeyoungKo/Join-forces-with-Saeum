@@ -17,7 +17,7 @@
                 <input type="checkbox"/><span> 로그인 상태 유지</span>
                </v-flex>
 
-               <v-btn class="btn-txt" rounded x-large color="#4CAF50" type="submit" value="Login">Login</v-btn>
+                <v-btn class="btn-txt" rounded x-large color="#4CAF50" type="submit" value="Login">Login</v-btn>
 
                <v-flex>
                 <v-btn text small type="button" class="btn" @click="showModal">비밀번호가 생각나지 않으세요?</v-btn>
@@ -25,9 +25,7 @@
 
                <FindpasswordModal v-show="isModalVisible" @close="closeModal"/>
 
-               <v-flex>
                 <v-btn class="btn-txt" rounded x-large color="#4CAF50" ><router-link :to="{name:'Signup'}" class="join-btn">Join</router-link></v-btn>
-               </v-flex>
            </v-container>
        </form>
     </div>
@@ -78,10 +76,15 @@ name: 'SigninForm',
     color: #ffffff;
     width:50%;
     text-transform: none !important;
-
+}
+.btn-txt::after:hover{
+    background-color:#aaaaaa;
 }
 .btn{
     width:90%;
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: 400;
 }
 a{
     font-weight: 800;
