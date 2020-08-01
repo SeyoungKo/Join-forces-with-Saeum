@@ -9,11 +9,14 @@ import ToggleButton from 'vue-js-toggle-button'
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import '@mdi/font/css/materialdesignicons.css'
 //vue meta import
 import VueMeta from 'vue-meta'
 
 import Directives from './plugins/directives';
 import io from 'socket.io-client';
+
+
 const socket = io('http://localhost:8080/chat'); // socket server namespace : /chat
 const vuetifyOptions = { }
 
@@ -41,5 +44,8 @@ new Vue({
   router,
   components: { App },
   template: '<App/>',
-  vuetify: new Vuetify(vuetifyOptions)
+  vuetify: new Vuetify(vuetifyOptions),
+  icons:{
+    iconfont: 'mdi'
+  }
 })
