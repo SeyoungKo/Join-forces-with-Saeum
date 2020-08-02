@@ -1,6 +1,6 @@
 <template>
     <div class="main-page">
-        <MainAppHeader/>
+        <AppHeader/>
         <SidebarMenu/>
         <ChatroomForm/>
         <SelectedChatForm/>
@@ -15,7 +15,7 @@ import ChatroomForm from '../components/ChatroomForm'
 import SelectedChatForm from '../components/SelectedChatForm'
 import AIKeywordListForm from '../components/AIKeywordListForm'
 import AIManagerForm from '../components/AIManagerForm'
-import MainAppHeader from '../components/MainAppHeader'
+import AppHeader from '../components/AppHeader'
 
 export default {
     name:'MainPage',
@@ -30,7 +30,7 @@ export default {
         SelectedChatForm,
         AIKeywordListForm,
         AIManagerForm,
-        MainAppHeader
+        AppHeader
     }
 }
 </script>

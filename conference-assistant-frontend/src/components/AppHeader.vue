@@ -1,5 +1,6 @@
 <template>
     <div class="app-header">
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      <img src="../img/dure_logo.png"><span>Dure</span>
      <router-link :to="{name:'Signin'}">로그아웃</router-link>
     </div>
@@ -13,7 +14,6 @@ export default {
 .app-header{
   position: fixed;
    top: 0;
-   left: 0;
    width: 100%;
    height: 70px;
    border-bottom: 1px solid #ededed;

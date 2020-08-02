@@ -50,8 +50,9 @@ export default new Router({
       path:'/main',
       name:'MainPage',
       components:{
-        header: SidebarMenu,
-        default: MainPage
+        menu : SidebarMenu,
+        default: MainPage,
+        header : AppHeader
       },
       props : true
     },
