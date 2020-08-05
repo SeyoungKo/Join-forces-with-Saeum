@@ -1,6 +1,6 @@
 <template>
     <div class="aimanager-form">
-            <img src="../img/ai.png">
+            <!-- <img src="../img/ai.png"> -->
             <h4>회의 매니저&nbsp;&nbsp;&nbsp;
                 <toggle-button v-if="flag==true" @change="onChangeEventHandler" :value="true" :labels="{checked: 'ON', unchecked:'OFF'}"></toggle-button>
                 <toggle-button v-else-if="flag==false" :disabled=true :value="true" :labels="{checked: 'ON', unchecked:'OFF'}"></toggle-button>
@@ -73,64 +73,5 @@ export default {
 }
 </script>
 <style scoped>
-.aimanager-form{
-   position: fixed;
-   left: 75%;
-   top: 68%;
-   width: 300px;
-   height: 380px;
-   margin: -165px 0 0 -228px;
-   padding: 45px 60px 60px;
-   background-color: #fff;
-   border: 1px solid  #eeeeee;
-   box-shadow: 4px 4px 2px rgb(233, 233, 233);
-   border-radius: 1.2rem;
-   overflow-y:scroll;
 
-}
-.aimanager-form h4{
-    margin-top:-24%;
-    margin-left: 5%;
-    font-size: 20px;
-    font-weight: 700;
-}
-img{
-    margin-top:-18%;
-    margin-left:-25%;
-    width:47px;
-    height: 45px;
-}
-.aimanager-form .welcome-div{
-    margin-top:10px;
-    padding: 8px 3px 3px 10px;
-    font-size: 14px;
-    font-weight: 500;
-    background: rgb(253, 239, 199);
-    color:rgb(51, 51, 51);
-    margin-left: -52px;
-    width:155%;
-    height: 40%;
-    border-radius: 0.2rem;
-    box-shadow: 4px 4px 2px rgb(204, 204, 204);
-}
-.toggle-btn{
-   width:50px;
-}
-.start-div{
-    margin-top:10px;
-    padding: 10px 4px 3px 10px;
-    font-size: 14px;
-    font-weight: 500;
-    background: rgb(253, 239, 199);
-    color:rgb(51, 51, 51);
-    margin-left: -4%;
-    width:105%;
-    height: 40%;
-    border-radius: 0.2rem;
-    box-shadow: 4px 4px 2px rgb(204, 204, 204);
-}
-.info-p{
-    margin-bottom:35px;
-
-}
 </style>

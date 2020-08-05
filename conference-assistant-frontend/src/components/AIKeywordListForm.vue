@@ -115,45 +115,5 @@ export default {
 }
 </script>
 <style scoped>
-.aikeyword-list-form{
-   position: fixed;
-   left: 97%;
-   top: 68%;
-   width: 250px;
-   height: 380px;
-   margin: -165px 0 0 -228px;
-   padding: 45px 60px 60px;
-   background-color: #fff;
-   border: 1px solid  #eeeeee;
-   box-shadow: 4px 4px 2px rgb(233, 233, 233);
-   border-radius: 1.2rem;
-   overflow-y:scroll;
-}
-h4{
-    margin-top:-20%;
-    margin-left: -30%;
-    font-size: 20px;
-    font-weight: 700;
-}
-p{
-    padding-top: 70%;
-    margin-left: -20%;
-    color:gray;
-    width:300px;
-}
-.btn-item{
-    border-radius: 1.7rem;
-    background-color: #69a77a;
-    margin-left: -20%;
-    padding:6% 10% 5%;
-    margin-bottom: 7%;
-    color:#eeeeee;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-}
-.btn-item:hover{
-    background-color: #4b7556;
-    text-decoration:underline;
-}
+
 </style>
