@@ -1,6 +1,6 @@
 <template>
-    <div class="selected-chat-form">
-        <v-container>
+    <div class="selected-chat-form" grid-list-sm style="height: 33vh;">
+        <v-container grid-list-md fluid class="v-container">
             <div v-if="clicked == false">
                 <p class="p-checkinfo">키워드를 선택하면 회의 내용이 보여집니다.</p>
             </div>
@@ -43,4 +43,7 @@ export default {
 </script>
 <style scoped>
 
+.selected-chat-form{
+    margin-top: 60px;
+}
 </style>

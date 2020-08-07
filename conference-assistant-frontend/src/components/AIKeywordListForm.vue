@@ -1,16 +1,18 @@
 <template>
     <div class="aikeyword-list-form">
-        <h4>AI가 찾은 키워드</h4>
-         <div v-if="keywords && keywords.length >0">
-            <div class="keywords" v-for="(keyword, index) in rtn_keywords" :key="index" v-on:click="handleSelectedKeyword(keyword, index)" >
-                <button class="btn-item" >{{keyword}}</button>
-                <template v-if="click_obj.idx == index"><br>{{click_obj.item}}</template>
-                <template v-else></template>
+        <v-container fluid class="v-container" grid-list-md >
+            <h4>AI가 찾은 키워드</h4>
+            <div v-if="keywords && keywords.length >0">
+                <div class="keywords" v-for="(keyword, index) in rtn_keywords" :key="index" v-on:click="handleSelectedKeyword(keyword, index)" >
+                    <button class="btn-item" >{{keyword}}</button>
+                    <template v-if="click_obj.idx == index"><br>{{click_obj.item}}</template>
+                    <template v-else></template>
+                </div>
             </div>
-         </div>
-         <div v-if="keywords && keywords.length ==0">
-             <p>AI가 발견한 키워드가 없습니다.</p>
-         </div>
+            <div v-if="keywords && keywords.length ==0">
+                <p>AI가 발견한 키워드가 없습니다.</p>
+            </div>
+        </v-container>
     </div>
 </template>
 <script>
@@ -115,5 +117,7 @@ export default {
 }
 </script>
 <style scoped>
-
+.aikeyword-list-form{
+    height: 47vh;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="aimanager-form">
+    <div class="aimanager-form" style="height: 47vh;">
             <!-- <img src="../img/ai.png"> -->
             <h4>회의 매니저&nbsp;&nbsp;&nbsp;
                 <toggle-button v-if="flag==true" @change="onChangeEventHandler" :value="true" :labels="{checked: 'ON', unchecked:'OFF'}"></toggle-button>
