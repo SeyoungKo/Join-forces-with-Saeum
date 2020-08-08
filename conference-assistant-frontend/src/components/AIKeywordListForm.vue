@@ -10,7 +10,8 @@
                 </div>
             </div>
             <div v-if="keywords && keywords.length ==0">
-                <p>AI가 발견한 키워드가 없습니다.</p>
+                <p class="p-alert">AI가 발견한 키워드가 없습니다.</p>
+                 <p><v-icon class="iconify">mdi-alert-circle-outline</v-icon></p>
             </div>
         </v-container>
     </div>
@@ -119,5 +120,16 @@ export default {
 <style scoped>
 .aikeyword-list-form{
     height: 47vh;
+}
+.p-alert{
+    position: absolute;
+    top: 40%;
+    left: 11%;
+    color : gray;
+}
+.iconify{
+    margin-top:60%;
+    left: 45%;
+    color: rgb(196, 196, 196);
 }
 </style>

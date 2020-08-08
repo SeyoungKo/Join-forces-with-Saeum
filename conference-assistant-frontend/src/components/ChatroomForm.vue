@@ -1,19 +1,21 @@
 <template>
     <div class="chatroom-form">
-        <v-container fluid class="v-container" grid-list-md style="height: 83vh;">
+        <v-container fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
             <v-layout row>
                 <v-flex>
-                    <h3 v-if="roomname!=''">{{roomname}}</h3>
+                    <h3 v-show="roomname!=''">{{roomname}}</h3>
                 </v-flex>
                     <v-btn class="goto-minutes-btn" type="button" @click="checkNullMessages()" v-if="roomname!=''"><router-link :to="{name:'CreateMinutesPage', params:{roomname : roomname}}">회의록 생성</router-link></v-btn>
-                    <div class="p-alert" v-else>채팅 방을 선택하거나 생성해주세요.</div>
+                    <div class="p-alert" v-else>채팅 방을 선택하거나 생성해주세요.
+                        <p><v-icon class="iconify">mdi-alert-circle-outline</v-icon></p>
+                    </div>
 
                 <!-- <button type="button"><img src="../img/menu.png"></button> -->
             </v-layout>
             <br>
             <v-layout column>
                 <div class="page-container">
-                    <div class="textarea">
+                    <div class="textarea" >
                         <div class="messages" v-for="(msg, index) in messages" :key="index">
                           <div>
                            <img class="profile-img" src="../img/default_profile.png">
@@ -24,18 +26,16 @@
                            <div></div>
                         </div>
                     </div>
-                        <div class="input_div">
+
+                    <div class="input_div" v-if="roomname!=''">
                         <div class="file_input_div">
-                            <!-- <img src="../img/fileupload.png" class="file_input_img_btn" alt="open" /> -->
-                            <input type="file" name="file_1" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value"/>
+                            <v-file-input class="v-file" small-chips shaped label="첨부된 파일"></v-file-input>
                         </div>
-                        <!-- <div class="chat_input_div">
-                            <input type="text" v-model="message" @keyup.enter="sendMessage()" placeholder="채팅을 입력하세요."/>
-                            <button @click="sendMessage()">전송</button>
-                        </div> -->
-                        <v-layout>
-                            <v-text-field style="max-width:100%; margin-left:2%; position: absolute;" outlined placeholder="채팅을 입력하세요."></v-text-field>
-                            <v-btn height="60" width="30">전송</v-btn>
+                        <v-layout row class="row">
+                            <v-text-field class="text-input" type="text" v-model="message" @keyup.enter="sendMessage()" outlined placeholder="채팅을 입력하세요."></v-text-field>
+                            <v-flex>
+                                <v-btn class="btn-send" height="55" large color="#e6e6e6" @click="sendMessage()">전송</v-btn>
+                            </v-flex>
                         </v-layout>
                     </div>
                 </div>
@@ -127,6 +127,19 @@ h4{
     display: inline;
 
 }
+.p-alert{
+    position: absolute;
+    top:40%;
+    left: 30%;
+    color:gray;
+    transform:translate(0%, -50%);
+    -webkit-transform:translate(0%, -50%);
+}
+.iconify{
+    margin-top:3%;
+    left: 45%;
+    color: rgb(196, 196, 196);
+}
 .profile-img{
     max-width: 15%;
     max-height: 15%;
@@ -138,12 +151,12 @@ h4{
     font-size:14px;
     color:rgb(39, 39, 39);
     font-weight: 500;
-    background-color:#e9e9e9;
+    background-color:rgb(208, 222, 230);
     margin-bottom:20px;
     border-radius : 0.5rem;
 }
 .textarea{
-  height: 65vh;
+  height: 55vh;
   overflow-y:scroll;
 }
 .user-name-p{
@@ -168,4 +181,26 @@ h4{
 .message-text{
     margin-top:-16%;
 }
+
+.text-input{
+    position: absolute;
+    bottom : -3%;
+    margin-left: 5%;
+    border-radius: 0.7rem;
+    border:0.3rem;
+    width: 80%;
+    color: #4CAF50;
+
+}
+.btn-send{
+    position: absolute;
+    left: 83%;
+    bottom : 2.2%;
+}
+.v-file{
+    margin-left: 2%;
+    width: 0;
+    margin-bottom: 19px;
+}
+
 </style>

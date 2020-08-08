@@ -4,7 +4,7 @@
         <SidebarMenu />
          <v-container grid-list-xl>
       <v-layout row wrap>
-        <v-flex xs12 sm6 md6 lg6 xs12-ma5>
+        <v-flex xs12 sm6 md6 lg6 m>
           <v-card >
             <ChatroomForm/>
           </v-card>
@@ -21,7 +21,7 @@
                 </v-card>
               </v-flex>
             </v-col>
-            <v-col>
+            <v-col >
               <v-flex xs24 sm12 md12 lg12 >
                 <v-card outlined>
                     <AIKeywordListForm server="http://127.0.0.1:5000/corekeyword"></AIKeywordListForm>
@@ -60,7 +60,5 @@ export default {
 }
 </script>
 <style scoped>
-.main-page{
-    overflow-y: scroll;
-}
+
 </style>
