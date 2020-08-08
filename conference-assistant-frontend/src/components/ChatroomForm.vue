@@ -110,7 +110,6 @@ export default {
 .chatroom-form{
     height:auto !important; /* cross-browser */
     margin-top: 60px;
-
 }
 .goto-minutes-btn{
     margin: 2% 2%;
@@ -198,9 +197,9 @@ h4{
     bottom : 2.2%;
 }
 .v-file{
+    position: absolute;
     margin-left: 2%;
     width: 0;
-    margin-bottom: 19px;
+    bottom: 8%;
 }
-
 </style>
