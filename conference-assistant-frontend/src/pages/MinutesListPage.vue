@@ -1,18 +1,22 @@
 <template>
     <div class="minutes-list-page">
-        <MinutesListForm></MinutesListForm>
-        <SidebarMenu></SidebarMenu>
+        <AppHeader/>
+        <SidebarMenu/>
+        <v-layout column wrap>
+            <MinutesListForm/>
+        </v-layout>
     </div>
 </template>
 <script>
 import MinutesListForm from '../components/MinutesListForm'
 import SidebarMenu from '../components/SidebarMenu'
-
+import AppHeader from '../components/AppHeader'
 export default {
     name : 'MinutesListPage',
     components:{
         MinutesListForm,
-        SidebarMenu
+        SidebarMenu,
+        AppHeader
     }
 }
 </script>

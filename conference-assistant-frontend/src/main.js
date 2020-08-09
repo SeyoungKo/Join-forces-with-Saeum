@@ -48,4 +48,4 @@ new Vue({
   icons:{
     iconfont: 'mdi'
   }
-})
+});
