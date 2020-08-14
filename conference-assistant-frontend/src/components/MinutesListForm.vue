@@ -280,7 +280,6 @@ select{
     overflow-y: scroll;
 }
 .v-layout{
-    /* width:20%; */
     font-size:14px;
     color:rgb(39, 39, 39);
     font-weight: 500;
