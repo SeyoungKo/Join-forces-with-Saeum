@@ -1,16 +1,19 @@
 package com.conference.assistant.springboot.conferenceassistantspringboot.domain.room;
 
+import com.conference.assistant.springboot.conferenceassistantspringboot.domain.BaseTimeEntity;
 import com.conference.assistant.springboot.conferenceassistantspringboot.domain.team.Team;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Room {
+public class Room extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +23,9 @@ public class Room {
     @Column(nullable = false, name="room_name")
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="status_room")
     @Enumerated(EnumType.STRING)
-    private Status_r status_r;
+    private Status status;
 
     // team id 참조
     @ManyToOne
@@ -30,9 +33,9 @@ public class Room {
     private Team team;
 
     @Builder
-    public Room(String name, Status_r status_r, Team team) {
+    public Room(String name, Status status, Team team) {
         this.name = name;
-        this.status_r = status_r;
+        this.status = status;
         this.team = team;
     }
 }

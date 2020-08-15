@@ -1,6 +1,8 @@
 package com.conference.assistant.springboot.conferenceassistantspringboot.domain.team;
 
+import com.conference.assistant.springboot.conferenceassistantspringboot.domain.BaseTimeEntity;
 import com.conference.assistant.springboot.conferenceassistantspringboot.domain.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +13,9 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-@Table(name="Team")
-public class Team {
+@Entity
+@Table(name="team")
+public class Team extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +25,9 @@ public class Team {
     @Column(nullable = false, name="team_name")
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name="status_team")
     @Enumerated(EnumType.STRING)
-    private Status_t status_t;
+    private Status status;
 
     @Column(nullable = false, name = "invite_url")
     private String invite;
@@ -34,9 +37,9 @@ public class Team {
     private List<User> users = new ArrayList<User>();
 
     @Builder
-    public Team(String name, Status_t status_t, String invite, List<User> users) {
+    public Team(String name, Status status, String invite, List<User> users) {
         this.name = name;
-        this.status_t = status_t;
+        this.status = status;
         this.invite = invite;
         this.users = users;
     }

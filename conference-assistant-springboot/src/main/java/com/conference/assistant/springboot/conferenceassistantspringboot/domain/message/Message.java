@@ -1,16 +1,21 @@
 package com.conference.assistant.springboot.conferenceassistantspringboot.domain.message;
 
+import com.conference.assistant.springboot.conferenceassistantspringboot.domain.BaseTimeEntity;
 import com.conference.assistant.springboot.conferenceassistantspringboot.domain.room.Room;
 import com.conference.assistant.springboot.conferenceassistantspringboot.domain.team.Team;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
-public class Message {
+@Entity
+public class Message extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
