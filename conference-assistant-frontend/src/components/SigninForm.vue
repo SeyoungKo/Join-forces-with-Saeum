@@ -17,7 +17,7 @@
                 <input type="checkbox"/><span> 로그인 상태 유지</span>
                </v-flex>
 
-                <v-btn class="btn-txt" rounded x-large color="#4CAF50" type="submit" value="Login">Login</v-btn>
+                <v-btn class="btn-txt" rounded x-large color="#4CAF50" @click="login()" value="Login">Login</v-btn>
 
                <v-flex>
                 <v-btn text small type="button" class="btn" @click="showModal">비밀번호가 생각나지 않으세요?</v-btn>
@@ -32,6 +32,7 @@
 </template>
 <script>
 import FindpasswordModal from '../modal/FindpasswordModal'
+import axios from 'axios'
 
 export default {
 name: 'SigninForm',
@@ -46,10 +47,21 @@ name: 'SigninForm',
         };
     },
     methods:{
-        submit(){
-            const {id,password} = this;
-            this.$emit('submit',{id,password})
-        },
+        login(){
+            axios.post("http://localhost:8000/users/login",{
+                id : this.id,
+                password: this.password
+            }).then((res)=>{
+                localStorage.setItem('usertoken', res.data)
+                this.id = ''
+                this.password = ''
+
+                this.$router.push({name : 'TeamListPage'})
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
+        ,
         showModal(){
             this.isModalVisible = true;
         },

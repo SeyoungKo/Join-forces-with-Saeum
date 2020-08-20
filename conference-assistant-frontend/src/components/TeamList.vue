@@ -5,8 +5,8 @@
                 <v-flex>
                     <img src="../img/profile.png" >
                         <div class="div-info">
-                            <h2>user1</h2>
-                            <p>user1@google.com</p><br><br>
+                            <h2>{{name}}</h2>
+                            <p>{{email}}</p><br><br>
                             <v-btn class="v-btn" rounded x-large color="#4CAF50" href="/Signup">프로필 변경</v-btn>
                         </div>
                 </v-flex>
@@ -25,6 +25,8 @@
 import AddTeamModal from '../modal/AddTeamModal'
 import CreateTeamModal from '../modal/CreateTeamModal'
 import TeamForm from './TeamForm'
+import jwtDecode from 'jwt-decode'
+
 export default {
     name : 'TeamList',
     components:{
@@ -33,11 +35,17 @@ export default {
         TeamForm
     },
     data(){
+        const token = localStorage.usertoken
+        const decoded = jwtDecode(token)
+
         return{
             isStatusOn : false, // 두번째 모달 v-show
             isModalVisible: false,
             isSecondModalVisible : false,
-            teamlist : []
+            teamlist : [],
+            id : decoded.identity.id,
+            name : decoded.identity.name,
+            email : decoded.identity.email
         };
     },
     methods:{

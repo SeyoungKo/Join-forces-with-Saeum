@@ -5,8 +5,9 @@
             <v-layout column>
             <h3 style="text-align:center"><span style="color:#32a852">두레</span> 회원가입</h3>
                <v-flex class="v-flex">
-                 <span>아이디 </span><br><v-text-field class="v-text-field" solo v-model="id" type="text" placeholder="아이디를 입력해주세요."/>
-                 <v-btn class="v-text" small>&nbsp;&nbsp;중복확인</v-btn><br>
+                 <span>아이디 </span><br><v-text-field class="v-text-field" solo v-model="id" v-bind="duplicate" type="text" placeholder="아이디를 입력해주세요."/>
+                 <!-- <v-btn class="v-text" @click="duplicate" small>&nbsp;&nbsp;중복확인</v-btn><br> -->
+                 <p v-if="duplicate"></p>
                </v-flex>
                <v-flex class="v-flex">
                  <span>비밀번호 </span><v-text-field class="id" solo v-model="password" type="password" placeholder="비밀번호를 입력해주세요."/><br>
@@ -22,12 +23,14 @@
                <v-flex class="v-flex">
                  <span>이메일 </span><v-text-field solo type="email" v-model="email" placeholder="이메일을 입력해주세요."/>
                </v-flex>
-                <v-btn class="v-btn" type="submit" large color="#4CAF50">회원가입</v-btn>
+                <v-btn class="v-btn" @click="onSubmit" large color="#4CAF50">회원가입</v-btn>
             </v-layout>
         </v-container>
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     name:'SignupForm',
     data(){
@@ -37,7 +40,8 @@ export default {
             passwordConfirm:'',
             name:'',
             tel:'',
-            email:''
+            email:'',
+            message : ''
         }
     },
     methods:{
@@ -52,9 +56,41 @@ export default {
                 return;
             }
             this.$emit('submit',{id, password, passwordConfirm, name, tel, email})
+        },
+        onSubmit(){
+
+            axios.post("http://localhost:8000/users/register",{
+                    id : this.id,
+                    password : this.password,
+                    name : this.name,
+                    tel : this.tel,
+                    email : this.email
+                }).then((res)=>{
+                   this.id = ''
+                   this.password = ''
+                   this.passwordConfirm = ''
+                   this.name = ''
+                   this.tel = ''
+                   this.email = ''
+
+                   this.$router.push({name:'Signin'})
+                }).catch((err)=>{
+                    console.log(err)
+                });
+        },
+        duplicate(){
+            axios.get("http://localhost:8000/users/checkid",{
+                id : this.id
+            }).then((res)=>{
+                this.message +='사용 가능한 아이디입니다.'
+            }).catch((err)=>{
+
+                console.log(err)
+            })
         }
-    }
+    },
 }
+
 </script>
 <style scoped>
 .v-container{
