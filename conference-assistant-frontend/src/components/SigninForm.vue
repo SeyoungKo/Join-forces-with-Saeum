@@ -52,12 +52,18 @@ name: 'SigninForm',
                 id : this.id,
                 password: this.password
             }).then((res)=>{
-                localStorage.setItem('usertoken', res.data)
-                this.id = ''
-                this.password = ''
+                if(res.data.error){
+                    alert('아이디 혹은 비밀번호를 확인해주세요.')
+                    return;
+                }else{
+                    localStorage.setItem('usertoken', res.data)
+                    this.id = ''
+                    this.password = ''
 
-                this.$router.push({name : 'TeamListPage'})
+                    this.$router.push({name : 'TeamListPage'})
+                }
             }).catch((err)=>{
+                alert('아이디 혹은 비밀번호를 확인해주세요.')
                 console.log(err)
             })
         }

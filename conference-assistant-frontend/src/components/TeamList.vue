@@ -4,11 +4,13 @@
             <v-layout row>
                 <v-flex>
                     <img src="../img/profile.png" >
-                        <div class="div-info">
-                            <h2>{{name}}</h2>
-                            <p>{{email}}</p><br><br>
-                            <v-btn class="v-btn" rounded x-large color="#4CAF50" href="/Signup">프로필 변경</v-btn>
-                        </div>
+                    <div class="div-info" >
+                        <span>
+                            <h3>{{name}}</h3>
+                            <br>{{email}}
+                        </span>
+                    </div>
+                    <v-btn class="v-btn" rounded x-large color="#4CAF50" href="/Signup">프로필 변경</v-btn>
                 </v-flex>
             </v-layout>
             <br><br><br><br>
@@ -105,7 +107,6 @@ export default {
     color: #ffff;
     border-radius: 1rem;
     background-color: #cacaca;
-
 }
 
 .team-list button[type="button"]:hover{
@@ -116,27 +117,21 @@ img{
     margin-top: 112px;
     margin-left: 5%;
     max-width:100%;
-    height:auto;
-
 }
 span{
-    margin-left: 9%;
-    font-size: 22px;
+    font-size: 17px;
 }
 p{
     margin-left: 10%;
     margin-bottom:-15%;
-    color:black;
+    color:rgb(48, 42, 42);
     font-size: medium;
 }
 .div-info{
-    display:inline-block;
+    margin-top: -5%;
+    margin-left: 15%;
 }
-h2{
-    margin-left: 8%;
-    margin-bottom: 1%;
-    font-weight: 500;
-}
+
 .v-btn{
     color: #fff;
     font-weight: 600;

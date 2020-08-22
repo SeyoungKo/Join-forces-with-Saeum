@@ -34,6 +34,13 @@ export default new Router({
         header : AppHeader,
         default: TeamListPage
       },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
+      },
       props: true
     },
     {
@@ -54,6 +61,13 @@ export default new Router({
         default: MainPage,
         header : AppHeader
       },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
+      },
       props : true
     },
     {
@@ -62,6 +76,13 @@ export default new Router({
       components:{
         header : SidebarMenu,
         default : TimelinePage
+      },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
       },
       props : true
     },
@@ -72,6 +93,13 @@ export default new Router({
         header : SidebarMenu,
         default : FileStoragePage
       },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
+      },
       props : true
     },
     {
@@ -81,6 +109,13 @@ export default new Router({
         header:SidebarMenu,
         default:CreateMinutesPage
       },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
+      },
       props:true
     },
     {
@@ -89,7 +124,14 @@ export default new Router({
       components:{
         header:SidebarMenu,
         default:MinutesListPage
-      }
+      },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
+      },
     }
   ]
 })

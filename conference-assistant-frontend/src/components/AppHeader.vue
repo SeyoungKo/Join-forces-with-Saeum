@@ -1,18 +1,27 @@
 <template>
     <div class="app-header">
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     <img src="../img/dure_logo.png"><span>Dure</span>
-     <router-link :to="{name:'Signin'}">로그아웃</router-link>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="../img/dure_logo.png"><span>Dure</span>
+          <v-btn class="btn-logout" @click="logout()" text color="#63c29a">
+      <v-icon left>mdi-logout</v-icon>로그아웃
+    </v-btn>
     </div>
 </template>
 <script>
 export default {
-    name : 'AppHeader'
+    name : 'AppHeader',
+    methods:{
+        logout(){
+            localStorage.removeItem('usertoken')
+            this.$router.push({name : 'Signin'})
+        }
+    }
+
 }
 </script>
 <style scoped>
 .app-header{
-  position: fixed;
+   position: fixed;
    top: 0;
    width: 100%;
    height: 70px;
@@ -31,10 +40,16 @@ span{
     font-weight: bold;
     color: #63c29a
 }
-a{
-   position: fixed;
-   margin-top: 30px;
-   margin-left: 90%;
-   color:rgb(31, 31, 31);
+.app-header a{
+   margin-bottom: 2px;
+   margin-left: 80%;
+   color:black;
+   width: fit-content;
 }
+ .btn-logout{
+    margin-top: 2%;
+    left: 88.5%;
+    position: absolute;
+}
+
 </style>
