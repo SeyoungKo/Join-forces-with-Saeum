@@ -11,7 +11,7 @@
                                 <v-layout column class="v-layout">
                                     <p class="team-name">{{team}}</p>
                                     <br>
-                                    <p style=" font-size:13px; color:black; text-decoration:underline; ">http://{{team}}.dure.com</p>
+                                    <p class="p-url">http://{{team}}.dure.com</p>
                                 </v-layout>
                             </v-layout>
                         </v-btn>
@@ -73,5 +73,9 @@ export default {
         margin-top: 30px;
         position: fixed;
         margin-left: 100px;
+    }
+    .p-url{
+        text-decoration-line: underline;
+        font-size: 14px;
     }
 </style>

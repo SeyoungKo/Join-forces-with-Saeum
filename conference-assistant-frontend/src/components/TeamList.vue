@@ -28,6 +28,7 @@ import AddTeamModal from '../modal/AddTeamModal'
 import CreateTeamModal from '../modal/CreateTeamModal'
 import TeamForm from './TeamForm'
 import jwtDecode from 'jwt-decode'
+import axios from 'axios'
 
 export default {
     name : 'TeamList',
@@ -47,7 +48,8 @@ export default {
             teamlist : [],
             id : decoded.identity.id,
             name : decoded.identity.name,
-            email : decoded.identity.email
+            email : decoded.identity.email,
+            teamname: ''
         };
     },
     methods:{
@@ -63,12 +65,39 @@ export default {
             this.isModalVisible = true;
         },
         closeSecondModal(teamname){
-            this.isStatusOn= false;
-            this.isModalVisible = false;
-            this.isSecondModalVisible = false;
 
-           if(teamname !=''){
-               this.teamlist.push(teamname);
+           if(teamname !='' && teamname != null){
+
+            var regType = /^[A-Za-z0-9+]{2,10}$/;
+
+               if(!regType.test(teamname)){
+                   alert('팀 명은 영문 혹은 영문 숫자를 혼합한 2~10자 이내 팀 명만 사용 가능합니다.')
+                   return;
+               }
+               axios.post("http://localhost:8000/teams/enroll",{
+                   teamname : teamname,
+                   id : this.id
+
+               }).then((res)=>{
+                   if(res.data.duplicate){
+                       alert('이미 '+teamname+'팀이 존재합니다. 다른 팀명을 입력해주세요.')
+                   }else {
+                        this.isStatusOn= false;
+                        this.isModalVisible = false;
+                        this.isSecondModalVisible = false;
+
+                        // ** 추후 수정
+                        this.teamlist.push(teamname);
+                        this.teamname = teamname;
+                   }
+               }).catch((err)=>{
+                   alert('다시 입력해주세요.')
+                   console.log(err)
+               })
+           }else{
+                this.isStatusOn= false;
+                this.isModalVisible = false;
+                this.isSecondModalVisible = false;
            }
         }
     }

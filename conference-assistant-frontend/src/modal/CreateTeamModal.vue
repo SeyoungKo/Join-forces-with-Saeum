@@ -21,16 +21,11 @@
             ></button>
           </slot>
         </header>
-        <section
-          class="modal-body"
-          id="modalDescription"
-        >
-          <slot name="body">
-            <input type="text" v-model="teamname" placeholder="   팀 명을 입력해주세요."/>
 
+          <slot name="body">
+            <v-text-field solo type="text" v-model="teamname" placeholder="팀 명을 입력해주세요."/>
           </slot>
-            <p class="alert-phrase">팀 명은 영문 혹은 영문 숫자를 혼합한 2~15 이내의 글자만 사용 가능합니다.</p>
-        </section>
+            <p class="alert-phrase">팀 명은 영문 혹은 영문 숫자를 혼합한 2~10자 이내 팀 명만 사용 가능합니다.</p>
         <footer class="modal-footer">
           <slot name="footer">
             <button type="button" class="btn-gray" @click="close" aria-label="Close modal">Cancle</button>
