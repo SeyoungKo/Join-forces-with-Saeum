@@ -31,8 +31,9 @@ def register():
 
     reg_date = datetime.utcnow()
 
-    sql = """insert into users(id,password, name, tel, email, reg_date, status)
-             values (%s, %s, %s, %s, %s, %s,%s)"""
+
+    sql = """insert into user(id, password, name, tel, email, reg_date, status)
+             values ( %s, %s, %s, %s, %s, %s,%s)"""
 
     cursor.execute(sql,(str(id), str(password), str(name), str(tel), str(email), str(reg_date), str(status[0])))
     cur.commit()
@@ -55,7 +56,7 @@ def login():
     password = request.get_json()['password']
     access_date = datetime.utcnow()
 
-    cursor.execute("SELECT * FROM users where id = '" + str(id) + "'")
+    cursor.execute("SELECT * FROM user where id = '" + str(id) + "'")
     row = cursor.fetchone()
 
     if bcrypt.check_password_hash(row[2], password):
@@ -68,7 +69,7 @@ def login():
             })
         result = access_token
 
-        sql = """update users set access_date = %s """
+        sql = """update user set access_date = %s """
         cursor.execute(sql, (str(access_date),))
         cur.commit()
     else:
@@ -83,11 +84,11 @@ def enroll():
     name = request.get_json()['teamname']
     id = request.get_json()['id']
 
-    cursor.execute("SELECT name FROM users where id = '" + str(id) + "'")
+    cursor.execute("SELECT * FROM user where id = '" + str(id) + "'")
     row = cursor.fetchone()
     rowcount = cursor.rowcount
 
-    created_by = row[0]
+    created_by = row[4]
 
     cursor.execute("SELECT * FROM team where name ='" + str(name) + "'")
     count = cursor.rowcount
@@ -96,6 +97,14 @@ def enroll():
         sql = """insert into team(name, status, created_by)
                 values (%s, %s, %s)"""
         cursor.execute(sql, (str(name), str(status[0]), str(created_by)))
+        cur.commit()
+
+        cursor.execute("SELECT team_key FROM team where created_by = '" + str(created_by) + "'")
+        row2 = cursor.fetchone()
+
+        sql = """insert into affiliation(user_key, team_key)
+                   values (%s, %s)"""
+        cursor.execute(sql, (str(row[0]), str(row2[0])))
         cur.commit()
 
         result = {
