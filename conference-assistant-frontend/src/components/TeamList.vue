@@ -29,6 +29,7 @@ import CreateTeamModal from '../modal/CreateTeamModal'
 import TeamForm from './TeamForm'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
+import {EventBus} from '../EventBus'
 
 export default {
     name : 'TeamList',
@@ -36,6 +37,20 @@ export default {
         AddTeamModal,
         CreateTeamModal,
         TeamForm
+    },
+    created(){
+        const user_key= this.user_key;
+        axios.get('http://localhost:8000/teams/'+`${user_key}`, user_key).then(res=>{
+            this.rtn = res.data
+
+            if(this.rtn != ''){
+
+                EventBus.$emit('teamitem',{
+                    teamitem : this.rtn
+                })
+
+            }
+        })
     },
     data(){
         const token = localStorage.usertoken
@@ -46,9 +61,11 @@ export default {
             isModalVisible: false,
             isSecondModalVisible : false,
             teamlist : [],
+            rtn : '',
             id : decoded.identity.id,
             name : decoded.identity.name,
             email : decoded.identity.email,
+            user_key : decoded.identity.user_key,
             teamname: ''
         };
     },
@@ -99,6 +116,8 @@ export default {
                 this.isModalVisible = false;
                 this.isSecondModalVisible = false;
            }
+            // manually reload current page
+            this.$router.go(0);
         }
     }
 }

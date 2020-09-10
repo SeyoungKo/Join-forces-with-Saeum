@@ -3,15 +3,15 @@
       <v-layout column>
             <router-link clsss="router-main" :to="{name: 'MainPage', params:{teamname : teamname}}">
                 <v-flex>
-                    <div class="team-item" v-for="(team, index) in teamlist" :key="index" @click="selectedTeamname(team)">
+                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team)">
                         <v-btn class="v-btn" style="height:80px;" x-large>
                             <img class="close" src="../img/close.png">
                             <v-layout row>
                                 <img class="img-teamprofile" src="../img/dure_team_profile.png">
                                 <v-layout column class="v-layout">
-                                    <p class="team-name">{{team}}</p>
+                                    <p class="team-name">{{team.name}}</p>
                                     <br>
-                                    <p class="p-url">http://{{team}}.dure.com</p>
+                                    <p class="p-url">http://{{team.name}}.dure.com</p>
                                 </v-layout>
                             </v-layout>
                         </v-btn>
@@ -22,13 +22,23 @@
     </div>
 </template>
 <script>
+import {EventBus} from '../EventBus'
+
 export default {
     name : 'TeamForm',
     props : ['teamlist'],
     data(){
         return{
-            teamname : ''
+            teamname : '',
+            teamitem : '',
+            url : '',
+            created_by : ''
         }
+    },
+    beforeMount(){
+        EventBus.$on('teamitem',(obj)=>{
+         this.teamitem = obj.teamitem
+        })
     },
     methods:{
         selectedTeamname(team){
