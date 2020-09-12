@@ -4,7 +4,7 @@
             <ChatroomInputForm @addChatInfo="addChatInfo"/>
                 <ul class="topic-list">
                     <li v-for="(t, index) in info" :key="index" v-bind="handleChatInfo(t.topic, t.roomname)">
-                        <div >{{t.topic}} </div>
+                        <div >&nbsp;&nbsp;&nbsp;{{t.topic}}</div>
                         <hr style="border : 1px solid #eeeeee; margin-top:15px;">
                     </li>
                 </ul>
@@ -74,16 +74,10 @@ export default {
 </script>
 <style scoped>
 .topic-list{
-    height: 180px;
    overflow-y:scroll;
 }
 hr{
     border :2px solid rgb(219, 219, 219);
-}
-.boundary-line-hr{
-    border :16px solid #f7f7f7;
-    margin-left: -60px;
-    width:538px;
 }
 .added-topic-div{
     padding-top: 10px;
@@ -91,18 +85,17 @@ hr{
     font-size:14px;
 }
 .ok-btn{
+    position: absolute;
+    bottom : 8%;
     height: 45px;
     width: 130px;
-    margin-left: 75%;
+    top:100%;
+    left:55%;
+    margin-top:-100px;
+    margin-left:-100px;
     border-radius: 0.3rem;
     background-color: #32a852;
     font-weight: 600;
     color:white;
-    /* position 하단 고정 */
-    position: fixed;
-    bottom: 2rem;
-    left: 0;
-
-
 }
 </style>

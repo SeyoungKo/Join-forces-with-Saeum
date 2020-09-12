@@ -1,7 +1,7 @@
 <template>
   <transition name="modal-fade">
     <div class="create-chat-alert-modal">
-      <div class="modal"
+      <v-layout  class="modal" xs12 sm2 md2 lg2
         role="dialog"
         aria-labelledby="modalTitle"
         aria-describedby="modalDescription"
@@ -10,12 +10,12 @@
           class="modal-header"
           id="modalTitle"
           >
-            <span class="phrase"><p>채팅 방 이름 혹은 회의 안건을  <br>최소1개 이상 등록해주세요.</p></span>
+            <span class="phrase"><p>채팅 방 이름 혹은 회의 안건을 <br>최소1개 이상 등록해주세요.</p></span>
         </header>
         <footer>
             <button type="button" class="btn-green" @click="btnok" aria-label="Close modal">OK</button>
         </footer>
-      </div>
+      </v-layout>
     </div>
   </transition>
 </template>
@@ -40,25 +40,17 @@
     transition: opacity .2s ease
   }
   .create-chat-alert-modal {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    margin-top: -20%;
     background-color: rgba(141, 141, 141, 0.3);
-    display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .modal {
-    height:30%;
-    width:28%;
     border-radius: 0.5rem;
-    background: rgb(250, 250, 250);
+    background: rgb(241, 241, 241);
     box-shadow: 1px 1px 20px 1px;
     overflow-x: auto;
-    display: flex;
     flex-direction: column;
   }
 
@@ -69,11 +61,10 @@
   }
 
   .modal-header {
-    color:#32a852;
     font-size: 23px;
     text-align: center;
     font-weight: 800;
-    margin-left: 22%;
+    margin-left: 30%;
     justify-content: space-between;
   }
 
@@ -90,8 +81,9 @@
   }
 
   button.btn-green {
-    margin-top: 55px;
-    margin-left: 150px;
+    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-left: 35%;
     height:40px;
     width:25%;
     background: #32a852;
@@ -101,5 +93,4 @@
     border: 1px solid #32a852;
     border-radius: 0.3rem;
   }
-</style>
 </style>

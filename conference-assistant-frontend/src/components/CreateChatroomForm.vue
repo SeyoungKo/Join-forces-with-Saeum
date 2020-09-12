@@ -1,10 +1,13 @@
 <template>
 <transition name="form-fade">
     <div class="create-chatroom-form">
+        <v-container fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
+            <br>
             <h3>채팅방 생성</h3>
             <img class="close-img" src="../img/close.png" @click="exit">
 
             <ChatTopicListForm @submit="submit"/>
+        </v-container>
     </div>
 </transition>
 </template>
@@ -13,11 +16,6 @@ import ChatTopicListForm from './ChatTopicListForm'
 import axios from 'axios'
 import {EventBus} from '../EventBus'
 
-// import api from '@/api'
-
-// const APIcore = axios.create({
-//     baseURL : '//localhost:8080/roominfo'
-// })
 export default {
     name : 'CreateChatroomForm',
     data(){
@@ -62,17 +60,8 @@ export default {
     transition: opacity .3s ease
 }
 .create-chatroom-form{
-   position: fixed;
-   left: 75%;
-   top: 35%;
-   width: 570px;
-   height: 615px;
-   margin: -165px 0 0 -228px;
-   padding: 45px 60px 60px;
-   background-color: #fff;
-   border: 1px solid  #eeeeee;
-   box-shadow: 4px 4px 2px rgb(233, 233, 233);
-   border-radius: 1.2rem;
+    height:auto !important; /* cross-browser */
+    margin-top: 60px;
 }
 h3{
     top:10px;
@@ -82,7 +71,7 @@ h3{
 .close-img{
     position:absolute;
     top:25px;
-    margin-left: 82%;
+    margin-left: 89%;
     width:18px;
     height:18px;
 }

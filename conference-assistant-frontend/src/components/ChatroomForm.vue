@@ -1,6 +1,7 @@
 <template>
     <div class="chatroom-form">
-        <v-container fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
+        <CreateChatroomForm v-if="isClicked" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
+        <v-container v-if="!isClicked" fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
             <v-layout row>
                 <v-flex>
                     <h3 v-show="roomname!=''">{{roomname}}</h3>
@@ -47,12 +48,17 @@
 import moment from 'vue-moment';
 import {EventBus} from '../EventBus'
 import axios from 'axios';
+import CreateChatroomForm from './CreateChatroomForm'
 
 export default {
     name: 'ChatroomForm',
-
+    components:{
+      CreateChatroomForm
+    },
     data(){
         return{
+            isClicked : false,
+            isClosedOn : false,
             message : '',
             messages : [],
             roomname : '',
@@ -83,6 +89,10 @@ export default {
                 });
 
             }
+        },
+        closeCreateChatroomForm(){
+            this.isClosedOn = !this.isClosedOn;
+            this.isClicked = !this.isClicked;
         }
     },
     mounted(){
@@ -102,7 +112,11 @@ export default {
         }),
         EventBus.$on('clickevent', (obj)=>{
             this.roomname = obj.roomname;
-        });
+        }),
+        EventBus.$on('clicked', (obj)=>{
+            this.isClicked = obj.isClicked;
+            console.log(this.isClicked);
+        })
     }
 }
 </script>

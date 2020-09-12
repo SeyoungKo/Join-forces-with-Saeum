@@ -6,7 +6,7 @@
                 <br><br><hr>
                 <span>회의 안건</span>
 
-                &nbsp;<input class="topic-input" type="text" v-model="topic" placeholder="         추가할 회의 안건을 입력해주세요.">
+                &nbsp;<input class="topic-input" type="text" v-model="topic" placeholder="                추가할 회의 안건을 입력해주세요.">
                  <br><br>
                 <button type="submit"><img class="add-topic" src="../img/add_topic.png"></button>
                <hr class="boundary-line-hr">
@@ -45,7 +45,7 @@ export default {
     border: 1px solid #dfdfdf;
     border-radius: 0.5rem;
     height: 45px;
-    width: 345px;
+    width: 70%;
 }
 img.add-topic{
     margin-top: -50px;
@@ -62,7 +62,6 @@ button{
     margin-left: 20px;
     padding: 15px 25px 10px 10px;
     width: 355px;
-    /* font-size:00px; */
 }
 ::placeholder{
     font-size:15px;
@@ -70,8 +69,8 @@ button{
 }
 .boundary-line-hr{
     border :16px solid #f7f7f7;
-    margin-left: -60px;
-    width:538px;
+    margin-left: -2%;
+    width:104.2%;
 }
 p:nth-child(2){
     padding-top: 50px;

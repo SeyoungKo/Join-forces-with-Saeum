@@ -30,6 +30,7 @@
                 </div>
                 <CreateChatroomForm v-if="isClicked" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
             </div> -->
+
             <v-navigation-drawer class="v-navigation-drawer" permanent expand-on-hover>
                 <v-list>
                     <v-list-item class="list-item" >
@@ -116,7 +117,6 @@
                                 <button class="btn-chatitem" @click="showSelectedChatroom(chatlist)">{{chatlist}}</button>
                                 <img @click="exitSelectedChatroom(chatlist)" class="img-close" src="../img/close_white.png"/>
                             </div>
-                            <CreateChatroomForm v-if="isClicked" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
                         </div>
                     </v-list-item-title>
                 </v-list-item>
@@ -166,10 +166,9 @@ export default {
         showCreateChatroomForm(){
             // 채팅방 생성하기
             this.isClicked = !this.isClicked;
-        },
-        closeCreateChatroomForm(){
-            this.isClosedOn = !this.isClosedOn;
-            this.isClicked = !this.isClicked;
+            EventBus.$emit('clicked',{
+                isClicked : this.isClicked
+            });
         },
         showSelectedChatroom(roomname){
 
@@ -194,7 +193,6 @@ export default {
         for(var i=0; i<localStorage.length; i++){
             this.chatlist.push(localStorage.key(i));
         }
-
     }
 }
 </script>

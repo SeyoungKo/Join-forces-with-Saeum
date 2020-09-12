@@ -3,7 +3,7 @@
       <v-layout column>
             <router-link clsss="router-main" :to="{name: 'MainPage', params:{teamname : teamname}}">
                 <v-flex>
-                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team)">
+                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name)">
                         <v-btn class="v-btn" style="height:80px;" x-large>
                             <img class="close" src="../img/close.png">
                             <v-layout row>
