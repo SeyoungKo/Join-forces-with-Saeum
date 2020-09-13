@@ -6,7 +6,7 @@
             <h3>채팅방 생성</h3>
             <img class="close-img" src="../img/close.png" @click="exit">
 
-            <ChatTopicListForm @submit="submit"/>
+            <ChatTopicListForm v-bind:selected_teamkey="selected_teamkey" @submit="submit"/>
         </v-container>
     </div>
 </transition>
@@ -18,17 +18,19 @@ import {EventBus} from '../EventBus'
 
 export default {
     name : 'CreateChatroomForm',
+    props:['team_key'],
     data(){
         return{
             rtn_roomname : '',
-            rtn_topic : ''
+            rtn_topic : '',
+            selected_teamkey : this.team_key
         }
     },
     components:{
         ChatTopicListForm
     },
     methods:{
-        submit(topic, roomname){
+        submit(topic, roomname, roomlist){
 
             // axios.post('http://127.0.0.1:5000/roominfo/'+ `${topics}`, topics).then(res=>{
             //     this.rtn_input = res.data
@@ -39,7 +41,8 @@ export default {
 
             EventBus.$emit('chatinfo', {
                 info : topic,
-                roomname : roomname
+                roomname : roomname,
+                roomlist : roomlist
             })
             this.$emit('close');
         },

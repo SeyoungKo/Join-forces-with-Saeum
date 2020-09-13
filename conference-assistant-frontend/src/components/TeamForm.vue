@@ -1,9 +1,9 @@
 <template>
     <div class="team-form">
       <v-layout column>
-            <router-link clsss="router-main" :to="{name: 'MainPage', params:{teamname : teamname}}">
+            <router-link clsss="router-main" :to="{name: 'MainPage', params:{teamname : teamname, team_key : team_key}}">
                 <v-flex>
-                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name)">
+                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name, team.team_key)">
                         <v-btn class="v-btn" style="height:80px;" x-large>
                             <img class="close" src="../img/close.png">
                             <v-layout row>
@@ -30,6 +30,7 @@ export default {
     data(){
         return{
             teamname : '',
+            team_key : '',
             teamitem : '',
             url : '',
             created_by : ''
@@ -37,12 +38,13 @@ export default {
     },
     beforeMount(){
         EventBus.$on('teamitem',(obj)=>{
-         this.teamitem = obj.teamitem
+         this.teamitem = obj.teamitem;
         })
     },
     methods:{
-        selectedTeamname(team){
-            this.teamname = team
+        selectedTeamname(name, team_key){
+            this.teamname = name;
+            this.team_key = team_key;
         }
     }
 }

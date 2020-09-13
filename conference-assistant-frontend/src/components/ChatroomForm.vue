@@ -1,6 +1,6 @@
 <template>
     <div class="chatroom-form">
-        <CreateChatroomForm v-if="isClicked" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
+        <CreateChatroomForm v-if="isClicked" v-bind:team_key="team_key" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
         <v-container v-if="!isClicked" fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
             <v-layout row>
                 <v-flex>
@@ -62,7 +62,8 @@ export default {
             message : '',
             messages : [],
             roomname : '',
-            rtn_summary:''
+            rtn_summary:'',
+            team_key : ''
         }
     },
     methods: {
@@ -115,8 +116,8 @@ export default {
         }),
         EventBus.$on('clicked', (obj)=>{
             this.isClicked = obj.isClicked;
-            console.log(this.isClicked);
-        })
+            this.team_key = obj.team_key;
+        });
     }
 }
 </script>

@@ -16,19 +16,33 @@
 <script>
 import ChatroomInputForm from './ChatroomInputForm'
 import CreateChatAlertModal from '../modal/CreateChatAlertModal'
+import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 
 export default {
     name : 'ChatTopicListForm',
+    props: ['selected_teamkey'],
     components:{
         ChatroomInputForm,
         CreateChatAlertModal
     },
+    created(){
+        const user_key = this.user_key;
+        axios.get('http://localhost:8080/rooms/'+`${user_key}`+'/'+`${team_key}`,user_key, team_key).then(res=>{
+            this.roomlist = res.data
+        });
+    },
     data(){
+        const token = localStorage.usertoken
+        const decoded = jwtDecode(token)
+
         return{
             info:[],
             isModalVisible : false,
             roomname : '',
-            topic : ''
+            topic : '',
+            user_key : decoded.identity.user_key,
+            team_key : this.selected_teamkey
         };
     },
     methods:{
@@ -54,14 +68,26 @@ export default {
         close(){
             if(this.topic != '' && this.roomname !=''){
 
-                this.$emit('submit', {
-                    topic : this.topic,
-                    roomname : this.roomname
-                });
-                localStorage.setItem(this.roomname, this.topic);
+                axios.post("http://localhost:8000/rooms/enroll",{
+                    roomname : this.roomname,
+                    user_key : this.user_key,
+                    team_key : this.team_key
+                }).then((res)=>{
+                    // this.$router.go(0);
+
+                }).catch((err)=>{
+                    alert('다시 시도해주세요.')
+                    console.log(err)
+                })
             }else{
                 this.showModal()
             }
+            this.$emit('submit', {
+                topic : this.topic,
+                roomname : this.roomname,
+                roomlist : this.roomlist
+            });
+
         },
         showModal(){
             this.isModalVisible = true;

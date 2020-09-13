@@ -110,7 +110,7 @@
                             <br>
                             <v-icon style="color:lightgray;">mdi-chat</v-icon>&nbsp;&nbsp;채팅방 목록
                             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" class="img-button"><img src="../img/chat_add.png" @click="showCreateChatroomForm" ></button>
+                                <button type="button" class="img-button"><img src="../img/chat_add.png" @click="showCreateChatroomForm()" ></button>
                             </span>
 
                             <div class="div-roominfo" v-for="(chatlist, index) in chatlist" :key="index" >
@@ -138,7 +138,9 @@ export default {
     },
     created(){
       const teamname = this.$route.params.teamname;
+      const team_key = this.$route.params.team_key;
       this.teamname = teamname;
+      this.team_key = team_key;
     },
     data(){
         return {
@@ -147,8 +149,9 @@ export default {
             name : 'user1',    // sample user,
             isClicked : false,
             isClosedOn : false,
-            chatlist : [],
+            chatlist : '',
             teamname : '',
+            team_key : '',
 
             //sample data
             items: [
@@ -167,7 +170,9 @@ export default {
             // 채팅방 생성하기
             this.isClicked = !this.isClicked;
             EventBus.$emit('clicked',{
-                isClicked : this.isClicked
+                isClicked : this.isClicked,
+                // team key 전달
+                team_key : this.team_key
             });
         },
         showSelectedChatroom(roomname){
@@ -188,11 +193,11 @@ export default {
     },
     beforeMount(){
         EventBus.$on('chatinfo',(obj)=>{
-            this.chatlist.push(obj.info.roomname);
+            this.chatlist= obj.roomlist;
         });
-        for(var i=0; i<localStorage.length; i++){
-            this.chatlist.push(localStorage.key(i));
-        }
+        // for(var i=0; i<localStorage.length; i++){
+        //     this.chatlist.push(localStorage.key(i));
+        // }
     }
 }
 </script>
