@@ -80,7 +80,7 @@ def login():
     return result
 
 @app.route('/teams/enroll', methods=['POST'])
-def enroll():
+def team_enroll():
     cursor = cur.cursor(buffered=True)
     name = request.get_json()['teamname']
     id = request.get_json()['id']
@@ -122,7 +122,7 @@ def enroll():
     return result
 
 @app.route('/teams/<user_key>', methods=['GET'])
-def load(user_key):
+def team_load(user_key):
     param = user_key
 
     cursor = cur.cursor(buffered=True)
@@ -142,6 +142,7 @@ def load(user_key):
 
         if type(row) is not None:
             rst = {
+                'team_key' : row[0],
                 'name': row[1],
                 'status': row[2],
                 'invite_url': row[3],
@@ -151,6 +152,47 @@ def load(user_key):
 
     result = json.dumps(multiple, default=str)
     return result
+
+@app.route('/rooms/enroll', methods=['POST'])
+def room_enroll():
+    cursor = cur.cursor(buffered=True)
+    team_key = request.get_json()['team_key']
+    roomname = request.get_json()['roomname']
+    user_key = request.get_json()['user_key']
+    created_at = datetime.utcnow()
+
+    sql = """insert into room(created_at, user_key, roomname, last_date, team_key)
+                      values (%s, %s, %s, %s, %s)"""
+    cursor.execute(sql, (str(created_at), str(user_key), str(roomname), str(created_at), str(team_key)))
+    cur.commit()
+
+    result = {
+        'roomname': roomname
+    }
+    rtn = {'result' : result}
+    return json.dumps(rtn, default=str)
+
+@app.route('/rooms/<user_key>/<team_key>', methods=['GET'])
+def room_load(user_key,team_key):
+    param1 = user_key
+    param2 = team_key
+
+    cursor = cur.cursor(buffered=True)
+    cursor.execute("SELECT roomname FROM room WHERE user_key = '" + str(param1) + "'" + " AND team_key = " + "'" + str(
+        param2) + "'")
+
+    row = cursor.fetchall()
+
+    multiple =[]
+    for i in range(len(row)):
+        rst = {
+            'roomname' : row[i][0]
+        }
+        multiple.append(rst)
+
+    result = json.dumps(multiple, default=str)
+    return result
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000)
