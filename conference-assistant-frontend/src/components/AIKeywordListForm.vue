@@ -10,8 +10,8 @@
                 </div>
             </div>
             <div v-if="keywords && keywords.length ==0">
-                <p class="p-alert">AI가 발견한 키워드가 없습니다.</p>
-                 <p><v-icon class="iconify">mdi-alert-circle-outline</v-icon></p>
+                <div class="p-alert">AI가 발견한 키워드가 없습니다.</div>
+                 <div><v-icon class="iconify">mdi-alert-circle-outline</v-icon></div>
             </div>
         </v-container>
     </div>
@@ -128,8 +128,8 @@ export default {
     color : gray;
 }
 .iconify{
-    margin-top:60%;
-    left: 45%;
+    margin-top:58%;
+    left: 43%;
     color: rgb(196, 196, 196);
 }
 </style>

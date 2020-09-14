@@ -54,7 +54,7 @@ export default new Router({
       component: Signup
     },
     {
-      path:'/main',
+      path:'/main/:user_key/:team_key',
       name:'MainPage',
       components:{
         menu : SidebarMenu,

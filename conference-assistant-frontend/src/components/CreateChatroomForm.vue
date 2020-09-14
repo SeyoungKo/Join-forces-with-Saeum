@@ -6,7 +6,7 @@
             <h3>채팅방 생성</h3>
             <img class="close-img" src="../img/close.png" @click="exit">
 
-            <ChatTopicListForm v-bind:selected_teamkey="selected_teamkey" @submit="submit"/>
+            <ChatTopicListForm v-bind:selected_teamkey="team_key" @submit="submit"/>
         </v-container>
     </div>
 </transition>
@@ -23,9 +23,10 @@ export default {
         return{
             rtn_roomname : '',
             rtn_topic : '',
-            selected_teamkey : this.team_key
+            team_key : this.team_key
         }
     },
+
     components:{
         ChatTopicListForm
     },
@@ -41,8 +42,7 @@ export default {
 
             EventBus.$emit('chatinfo', {
                 info : topic,
-                roomname : roomname,
-                roomlist : roomlist
+                roomname : roomname
             })
             this.$emit('close');
         },

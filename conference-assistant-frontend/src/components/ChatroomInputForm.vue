@@ -2,7 +2,7 @@
     <div class="chatroom-input-form">
             <form @submit.prevent="addChatInfo">
                 <br>
-                <p>채팅방 이름&nbsp;&nbsp;&nbsp;&nbsp;</p><input class="chatname-input" v-model="roomname" type="text"/>
+                <span>채팅방 이름&nbsp;&nbsp;&nbsp;&nbsp;</span><input class="chatname-input" v-model="roomname" type="text"/>
                 <br><br><hr>
                 <span>회의 안건</span>
 
