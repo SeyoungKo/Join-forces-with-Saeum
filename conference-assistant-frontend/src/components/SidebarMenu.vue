@@ -1,36 +1,6 @@
 <template>
     <div class="sidebar-menu">
         <v-container>
-            <!-- <img src="../img/dure_default.png"><router-link :to="{name:'MainPage'}" style="position:absolute;font-size:23px;font-weight:900">&nbsp;&nbsp;{{teamname}}</router-link>
-            <span><img class="drop-menu-icon" src="../img/drop_menu.png" v-on:click="showDropMenu">
-            <div v-if="isStatusOn" class="drop-menu">
-                Team2<hr>
-                Team3<hr>
-            </div></span>
-            <p>http://{{teamname}}.dure.com</p>
-            <div class="route-menu">
-                <router-link :to="{name:'FileStoragePage'}">업무자료</router-link><p></p>
-                <p><router-link :to="{name:'TimelinePage'}">타임라인</router-link></p>
-                <p><router-link :to="{name:'MinutesListPage'}">회의록</router-link></p>
-                <p><router-link :to="{name:'Signin'}">&nbsp;&nbsp;&nbsp;&nbsp;- 회의록 목록</router-link></p>
-
-            </div>
-            <hr>
-            <div class="online-userlist">
-                <h5>이 팀에 소속된 팀원</h5>
-                <img src="../img/offline.png"><button type="button" class="btn"  @mouseover="isActive= true" @mouseleave="isActive= false">{{name}}</button><br>
-                    <ShowProfileForm v-bind:propsname="name" v-show="isActive"></ShowProfileForm>
-                <img src="../img/offline.png"><button type="button" class="btn">user2</button>
-            </div>
-            <div class="chat-list">
-                <h5>채팅방 목록<span><button type="button" class="img-button"><img src="../img/chat_add.png" @click="showCreateChatroomForm" ></button></span></h5>
-                <div class="div-roominfo" v-for="(chatlist, index) in chatlist" :key="index" >
-                    <button class="btn-chatitem" @click="showSelectedChatroom(chatlist)">{{chatlist}}</button>
-                    <img @click="exitSelectedChatroom(chatlist)" class="img-close" src="../img/close_white.png"/>
-                </div>
-                <CreateChatroomForm v-if="isClicked" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
-            </div> -->
-
             <v-navigation-drawer class="v-navigation-drawer" permanent expand-on-hover>
                 <v-list>
                     <v-list-item class="list-item" >
@@ -42,7 +12,7 @@
 
                     <v-list-item class="list-item2" link>
                     <v-list-item-content class="list-content" >
-                        <v-list-item-title class="title">User1</v-list-item-title>
+                        <v-list-item-title class="title">{{name}}</v-list-item-title>
                     </v-list-item-content>
                     </v-list-item>
 
@@ -112,9 +82,8 @@
                             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="img-button"><img src="../img/chat_add.png" @click="showCreateChatroomForm()" ></button>
                             </span>
-
-                            <div class="div-roominfo" v-for="(chatlist, index) in chatlist" :key="index" >
-                                <button class="btn-chatitem" @click="showSelectedChatroom(chatlist)">{{chatlist}}</button>
+                            <div class="div-roominfo" v-for="(chatlist, index) in roomlist" :key="index" >
+                                <button class="btn-chatitem" @click="showSelectedChatroom(chatlist.roomname)">{{chatlist.roomname}}</button>
                                 <img @click="exitSelectedChatroom(chatlist)" class="img-close" src="../img/close_white.png"/>
                             </div>
                         </div>
@@ -129,6 +98,8 @@
 import ShowProfileForm from './ShowProfileForm'
 import CreateChatroomForm from './CreateChatroomForm'
 import {EventBus} from '../EventBus'
+import jwtDecode from 'jwt-decode'
+import axios from 'axios'
 
 export default {
     name: 'SidebarMenu',
@@ -136,23 +107,39 @@ export default {
       ShowProfileForm,
       CreateChatroomForm
     },
-    created(){
-      const teamname = this.$route.params.teamname;
-      const team_key = this.$route.params.team_key;
-      this.teamname = teamname;
-      this.team_key = team_key;
+     created(){
+
+      var session = JSON.parse(sessionStorage.getItem("teaminfo"))
+        this.teamname = session.teamname;
+        this.team_key = session.team_key;
+
+      const user_key = this.user_key;
+      const team_key = this.team_key;
+
+      axios.get('http://localhost:8000/rooms/'+`${user_key}`+'/'+`${team_key}`,user_key, team_key)
+            .then((res)=>{
+                if(res.data !=''){
+                  this.roomlist = res.data
+                }
+            }).catch((err)=>{
+              alert('다시 입력')
+              console.log(err)
+            });
     },
     data(){
+      const token = localStorage.usertoken
+      const decoded = jwtDecode(token)
+
         return {
+            roomlist : '',
             isStatusOn : false,
             isActive : false,
-            name : 'user1',    // sample user,
+            name : decoded.identity.name,
             isClicked : false,
             isClosedOn : false,
-            chatlist : '',
+            user_key : decoded.identity.user_key,
             teamname : '',
             team_key : '',
-
             //sample data
             items: [
                 { title: 'Click Me' },
@@ -190,14 +177,6 @@ export default {
             // manually reload current page
             this.$router.go(0);
         }
-    },
-    beforeMount(){
-        EventBus.$on('chatinfo',(obj)=>{
-            this.chatlist= obj.roomlist;
-        });
-        // for(var i=0; i<localStorage.length; i++){
-        //     this.chatlist.push(localStorage.key(i));
-        // }
     }
 }
 </script>

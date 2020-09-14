@@ -28,9 +28,8 @@ export default {
     },
     created(){
         const user_key = this.user_key;
-        axios.get('http://localhost:8080/rooms/'+`${user_key}`+'/'+`${team_key}`,user_key, team_key).then(res=>{
-            this.roomlist = res.data
-        });
+        const team_key = this.team_key;
+
     },
     data(){
         const token = localStorage.usertoken
@@ -73,7 +72,7 @@ export default {
                     user_key : this.user_key,
                     team_key : this.team_key
                 }).then((res)=>{
-                    // this.$router.go(0);
+                    this.$router.go(0);
 
                 }).catch((err)=>{
                     alert('다시 시도해주세요.')
@@ -84,8 +83,7 @@ export default {
             }
             this.$emit('submit', {
                 topic : this.topic,
-                roomname : this.roomname,
-                roomlist : this.roomlist
+                roomname : this.roomname
             });
 
         },

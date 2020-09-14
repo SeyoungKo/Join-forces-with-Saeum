@@ -1,14 +1,14 @@
 <template>
     <div class="chatroom-form">
         <CreateChatroomForm v-if="isClicked" v-bind:team_key="team_key" @close="closeCreateChatroomForm" @exit="closeCreateChatroomForm"></CreateChatroomForm>
-        <v-container v-if="!isClicked" fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
+        <v-container fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
             <v-layout row>
                 <v-flex>
                     <h3 v-show="roomname!=''">{{roomname}}</h3>
                 </v-flex>
                     <v-btn class="goto-minutes-btn" type="button" @click="checkNullMessages()" v-if="roomname!=''"><router-link :to="{name:'CreateMinutesPage', params:{roomname : roomname}}">회의록 생성</router-link></v-btn>
                     <div class="p-alert" v-else>채팅 방을 선택하거나 생성해주세요.
-                        <p><v-icon class="iconify">mdi-alert-circle-outline</v-icon></p>
+                        <div><v-icon class="iconify">mdi-alert-circle-outline</v-icon></div>
                     </div>
 
                 <!-- <button type="button"><img src="../img/menu.png"></button> -->

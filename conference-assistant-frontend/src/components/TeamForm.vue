@@ -1,7 +1,7 @@
 <template>
     <div class="team-form">
       <v-layout column>
-            <router-link clsss="router-main" :to="{name: 'MainPage', params:{teamname : teamname, team_key : team_key}}">
+            <router-link clsss="router-main" :to="{name: 'MainPage', params:{user_key : user_key.toString(), teamname : teaminfo.teamname.toString(), team_key : teaminfo.team_key.toString()}}">
                 <v-flex>
                     <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name, team.team_key)">
                         <v-btn class="v-btn" style="height:80px;" x-large>
@@ -23,17 +23,23 @@
 </template>
 <script>
 import {EventBus} from '../EventBus'
+import jwtDecode from 'jwt-decode'
 
 export default {
     name : 'TeamForm',
     props : ['teamlist'],
     data(){
+      const token = localStorage.usertoken
+      const decoded = jwtDecode(token)
         return{
-            teamname : '',
-            team_key : '',
+            teaminfo : {
+                teamname : '',
+                team_key : '',
+            },
             teamitem : '',
             url : '',
-            created_by : ''
+            created_by : '',
+            user_key : decoded.identity.user_key
         }
     },
     beforeMount(){
@@ -43,8 +49,10 @@ export default {
     },
     methods:{
         selectedTeamname(name, team_key){
-            this.teamname = name;
-            this.team_key = team_key;
+            this.teaminfo.teamname = name;
+            this.teaminfo.team_key = team_key;
+
+            sessionStorage.setItem("teaminfo", JSON.stringify(this.teaminfo))
         }
     }
 }
