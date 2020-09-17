@@ -9,9 +9,11 @@ cors = config.cors()
 
 Room = Namespace('Room')
 
+
 @Room.route('/enroll', methods=['POST'])
 class Enroll(Resource):
     def post(self):
+        """방 생성"""
         cursor = cur.cursor(buffered=True)
         team_key = request.get_json()['team_key']
         roomname = request.get_json()['roomname']
@@ -29,14 +31,16 @@ class Enroll(Resource):
         rtn = {'result' : result}
         return json.dumps(rtn, default=str)
 
+
 @Room.route('/<user_key>/<team_key>', methods=['GET'])
 class Load(Resource):
     def get(self, user_key, team_key):
+        """전체 방 조회"""
         param1 = user_key
         param2 = team_key
 
         cursor = cur.cursor(buffered=True)
-        cursor.execute("SELECT roomname FROM room WHERE user_key = '" + str(param1) + "'" + " AND team_key = " + "'" + str(
+        cursor.execute("SELECT * FROM room WHERE user_key = '" + str(param1) + "'" + " AND team_key = " + "'" + str(
             param2) + "'")
 
         row = cursor.fetchall()
@@ -44,7 +48,8 @@ class Load(Resource):
         multiple =[]
         for i in range(len(row)):
             rst = {
-                'roomname' : row[i][0]
+                'room_key': row[i][0],
+                'roomname' : row[i][3]
             }
             multiple.append(rst)
 

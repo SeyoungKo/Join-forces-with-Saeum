@@ -14,9 +14,11 @@ User = Namespace('User')
 bcrypt = Bcrypt()
 jwt = JWTManager()
 
+
 @User.route('/register', methods=['POST'])
 class Register(Resource):
     def post(self):
+        """회원 정보 등록"""
         cursor = cur.cursor(buffered=True)
         id = request.get_json()['id']
         password = bcrypt.generate_password_hash(
@@ -43,9 +45,11 @@ class Register(Resource):
         rtn = {'result': result}
         return json.dumps(rtn, default=str)
 
+
 @User.route('/login', methods=['POST'])
 class Login(Resource):
     def post(self):
+        """사용자 로그인"""
         cursor = cur.cursor(buffered=True)
         id = request.get_json()['id']
         password = request.get_json()['password']

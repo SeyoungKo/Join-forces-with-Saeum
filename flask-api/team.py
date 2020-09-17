@@ -1,12 +1,26 @@
 from flask_restx import Resource, Api, Namespace
 from flask import Flask, jsonify, request, json
 import config
+import hashlib
 
 status = ['VALID', 'INVALID']
 cur = config.db()
 cors = config.cors()
 
 Team = Namespace('Team')
+
+
+class Hash:
+    def hashurl(self, team_key, teamname):
+        url = str(team_key) + str('/') + str(teamname)
+        hash = hashlib.sha1()
+        hash.update(str(url).encode('utf-8'))
+        rtn_url = hash.hexdigest()[:10]
+
+        cursor = cur.cursor(buffered=True)
+        cursor.execute("UPDATE team SET invite_url = '" + str(rtn_url) + "'" + " WHERE team_key = " + "'" + str(team_key)+"'")
+        cur.commit()
+
 
 @Team.route('/enroll', methods=['POST'])
 class Enroll(Resource):
@@ -38,6 +52,8 @@ class Enroll(Resource):
             cursor.execute(sql, (str(row[0]), str(row2[0])))
             cur.commit()
 
+            Hash.hashurl(self, row2[0], name)
+
             result = {
                 'name': name,
                 'created_by': created_by
@@ -51,9 +67,11 @@ class Enroll(Resource):
 
         return result
 
+
 @Team.route('/<user_key>', methods=['GET'])
 class Load(Resource):
     def get(self, user_key):
+        """팀 목록 조회"""
         param = user_key
 
         cursor = cur.cursor(buffered=True)
