@@ -16,11 +16,11 @@
             <br>
             <v-layout column>
                 <div class="page-container">
-                    <div class="textarea" >
+                    <div class="textarea" v-auto-scroll-bottom>
                         <div class="messages" v-for="(msg, index) in messages" :key="index">
                           <div>
-                           <img class="profile-img" src="../img/default_profile.png">
-                           <p class="user-name-p">user1</p>
+                            <v-icon class="profile-img" x-large>mdi-account-circle</v-icon>
+                           <p class="user-name-p">{{user_name}}</p>
                           </div>
                            <p class="message-text"><span class="font-weight-bold"></span>&nbsp;&nbsp;{{ msg.message }} </p>
                            <p class="date">{{moment().format('MM-DD HH:mm')}}</p>
@@ -48,6 +48,7 @@
 import moment from 'vue-moment';
 import {EventBus} from '../EventBus'
 import axios from 'axios';
+import jwtDecode from 'jwt-decode'
 import CreateChatroomForm from './CreateChatroomForm'
 
 export default {
@@ -56,6 +57,9 @@ export default {
       CreateChatroomForm
     },
     data(){
+        const token = localStorage.usertoken
+        const decoded = jwtDecode(token)
+        // const session = JSON.parse(sessionStorage.getItem("teaminfo"))
         return{
             isClicked : false,
             isClosedOn : false,
@@ -63,13 +67,17 @@ export default {
             messages : [],
             roomname : '',
             rtn_summary:'',
-            team_key : ''
+            team_key : '',
+            user_key : decoded.identity.user_key,
+            user_name : decoded.identity.name
         }
     },
     methods: {
         sendMessage(){
             this.$socket.emit('SEND_MESSAGE',{
-                message: this.message
+                message: this.message,
+                user_key : this.user_key,
+                team_key : this.team_key
             });
             this.message = ''
         },
@@ -155,9 +163,8 @@ h4{
     color: rgb(196, 196, 196);
 }
 .profile-img{
-    max-width: 15%;
-    max-height: 15%;
-    margin-bottom: 6%;
+    margin-bottom: 13%;
+    color: rgb(204, 204, 204);
 }
 .messages{
     width:60%;
@@ -170,8 +177,8 @@ h4{
     border-radius : 0.5rem;
 }
 .textarea{
-  height: 55vh;
-  overflow-y:scroll;
+    overflow-y: scroll;
+    height: 55vh;
 }
 .user-name-p{
     z-index: 2;

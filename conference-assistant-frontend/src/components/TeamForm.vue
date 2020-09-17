@@ -1,7 +1,7 @@
 <template>
     <div class="team-form">
       <v-layout column>
-            <router-link clsss="router-main" :to="{name: 'MainPage', params:{user_key : user_key.toString(), teamname : teaminfo.teamname.toString(), team_key : teaminfo.team_key.toString()}}">
+            <router-link clsss="router-main" :to="{name: 'MainPage', params:{user_key : user_key, teamname : teaminfo.teamname, team_key : teaminfo.team_key}}">
                 <v-flex>
                     <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name, team.team_key)">
                         <v-btn class="v-btn" style="height:80px;" x-large>

@@ -181,7 +181,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .v-navigation-drawer{
     position:fixed;
     z-index: 1;

@@ -16,8 +16,7 @@ import VueMeta from 'vue-meta'
 import Directives from './plugins/directives';
 import io from 'socket.io-client';
 
-
-const socket = io('http://localhost:8080/chat'); // socket server namespace : /chat
+const socket = io('http://localhost:8000/chat'); // socket server namespace : /chat
 const vuetifyOptions = { }
 
 Vue.use(Vuetify)
