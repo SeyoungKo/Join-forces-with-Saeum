@@ -17,9 +17,11 @@ class Hash:
         hash.update(str(url).encode('utf-8'))
         rtn_url = hash.hexdigest()[:10]
 
+
         cursor = cur.cursor(buffered=True)
         cursor.execute("UPDATE team SET invite_url = '" + str(rtn_url) + "'" + " WHERE team_key = " + "'" + str(team_key)+"'")
         cur.commit()
+        return str(rtn_url)
 
 
 @Team.route('/enroll', methods=['POST'])
@@ -52,14 +54,17 @@ class Enroll(Resource):
             cursor.execute(sql, (str(row[0]), str(row2[0])))
             cur.commit()
 
-            Hash.hashurl(self, row2[0], name)
+            url = Hash.hashurl(self, row2[0], name)
 
-            result = {
-                'name': name,
-                'created_by': created_by
+            json_res = {
+                'response' : "ok"
             }
-            rtn = {'result': result}
-            result = json.dumps(rtn, default=str)
+            rtn = {'result': json_res}
+            json_res = json.dumps(rtn, default=str)
+
+            # 역슬래시 제거
+            clear = json_res.replace("\\", "")
+            result = json.loads(clear)
 
         else:
             message = {'duplicate': "Dupicate teamname"}
@@ -105,3 +110,48 @@ class Load(Resource):
         result = json.loads(clear)
 
         return result
+
+
+@Team.route('/<invite_url>/<user_key>', methods=['GET'])
+class Verify(Resource):
+    def get(self, invite_url, user_key):
+        """url으로 팀 조회"""
+        param1 = invite_url
+        param2 = user_key
+
+        cursor = cur.cursor(buffered=True)
+        cursor.execute("SELECT * FROM team WHERE invite_url = '" + str(param1) + "'")
+        row = cursor.fetchone()
+
+        team_key = row[0]
+        name = row[1]
+        status = row[2]
+        invite_url = row[3]
+        created_by = row[4]
+
+        rst = {
+            'team_key' : team_key,
+            'name' : name,
+            'status' : status,
+            'invite_url' : invite_url,
+            'created_by' : created_by
+        }
+
+        if type(row) is not None:
+            sql = """insert into affiliation(user_key, team_key)
+                       values (%s, %s)"""
+            cursor.execute(sql, (str(param2), str(team_key)))
+
+            cur.commit()
+
+            json_data = json.dumps(rst, default=str)
+            # 역슬래시 제거
+            clear = json_data.replace("\\", "")
+            result = json.loads(clear)
+
+        else:
+            message = {'not found': "Team does not exist"}
+            result = json.dumps(message, default=str)
+
+        return result
+
