@@ -13,6 +13,8 @@ import MinutesListPage from '../pages/MinutesListPage'
 //헤더 컴포넌트
 import AppHeader from '../components/AppHeader'
 
+import hashurl from './hashurl'
+
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +57,23 @@ export default new Router({
     },
     {
       path:'/main/:user_key/:team_key',
+      name:'MainPage',
+      components:{
+        menu : SidebarMenu,
+        default: MainPage,
+        header : AppHeader
+      },
+      beforeEnter(to, from, next){
+        if(typeof localStorage.usertoken == 'undefined'){
+          alert('로그인이 필요합니다.')
+          next({name : 'Signin'})
+        }
+        next()
+      },
+      props : true
+    },
+    {
+      path : '/'+hashurl.returnUrl(),
       name:'MainPage',
       components:{
         menu : SidebarMenu,

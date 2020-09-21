@@ -6,7 +6,7 @@
             <h3>채팅방 생성</h3>
             <img class="close-img" src="../img/close.png" @click="exit">
 
-            <ChatTopicListForm v-bind:selected_teamkey="team_key" @submit="submit"/>
+            <ChatTopicListForm v-bind:selected_teamkey="this.key" @submit="submit"/>
         </v-container>
     </div>
 </transition>
@@ -23,7 +23,7 @@ export default {
         return{
             rtn_roomname : '',
             rtn_topic : '',
-            team_key : this.team_key
+            key : this.team_key
         }
     },
 

@@ -4,9 +4,9 @@
         <v-container fluid class="v-container" grid-list-md style="height: 83vh; position: relative;">
             <v-layout row>
                 <v-flex>
-                    <h3 v-show="roomname!=''">{{roomname}}</h3>
+                    <h3 v-show="room.roomname!=''">{{room.roomname}}</h3>
                 </v-flex>
-                    <v-btn class="goto-minutes-btn" type="button" @click="checkNullMessages()" v-if="roomname!=''"><router-link :to="{name:'CreateMinutesPage', params:{roomname : roomname}}">회의록 생성</router-link></v-btn>
+                    <v-btn class="goto-minutes-btn" type="button" @click="checkNullMessages()" v-if="room.roomname!=''"><router-link :to="{name:'CreateMinutesPage', params:{roomname : room.roomname}}">회의록 생성</router-link></v-btn>
                     <div class="p-alert" v-else>채팅 방을 선택하거나 생성해주세요.
                         <div><v-icon class="iconify">mdi-alert-circle-outline</v-icon></div>
                     </div>
@@ -20,7 +20,7 @@
                         <div class="messages" v-for="(msg, index) in messages" :key="index">
                           <div>
                             <v-icon class="profile-img" x-large>mdi-account-circle</v-icon>
-                           <p class="user-name-p">{{user_name}}</p>
+                           <p class="user-name-p">{{user.user_name}}</p>
                           </div>
                            <p class="message-text"><span class="font-weight-bold"></span>&nbsp;&nbsp;{{ msg.message }} </p>
                            <p class="date">{{moment().format('MM-DD HH:mm')}}</p>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
 
-                    <div class="input_div" v-if="roomname!=''">
+                    <div class="input_div" v-if="room.roomname!=''">
                         <div class="file_input_div">
                             <v-file-input class="v-file" small-chips shaped label="첨부된 파일"></v-file-input>
                         </div>
@@ -65,18 +65,24 @@ export default {
             isClosedOn : false,
             message : '',
             messages : [],
-            roomname : '',
+            room :{
+              roomname : '',
+              room_key : ''
+            },
             rtn_summary:'',
             team_key : '',
-            user_key : decoded.identity.user_key,
-            user_name : decoded.identity.name
+            user : {
+                user_key : decoded.identity.user_key,
+                user_name : decoded.identity.name
+            }
         }
     },
     methods: {
         sendMessage(){
             this.$socket.emit('SEND_MESSAGE',{
                 message: this.message,
-                user_key : this.user_key,
+                user_key : this.user.user_key,
+                room_key : this.room.room_key,
                 team_key : this.team_key
             });
             this.message = ''
@@ -117,10 +123,13 @@ export default {
     },
     beforeMount(){
         EventBus.$on('chatinfo', (obj)=>{
-            this.roomname = obj.info.roomname;
+            this.room.roomname = obj.info.roomname;
+            this.room.room_key = obj.info.room_key;
         }),
         EventBus.$on('clickevent', (obj)=>{
-            this.roomname = obj.roomname;
+            this.room.roomname = obj.roomname;
+            this.room.room_key = obj.room_key;
+
         }),
         EventBus.$on('clicked', (obj)=>{
             this.isClicked = obj.isClicked;

@@ -1,7 +1,7 @@
 <template>
   <transition name="modal-fade">
     <div class="add-team-modal">
-      <div class="modal"
+      <v-layout class="modal" xs12 sm6 md5 lg3
         role="dialog"
         aria-labelledby="modalTitle"
         aria-describedby="modalDescription"
@@ -11,8 +11,10 @@
           id="modalTitle"
           >
           <slot name="header">
-            참여중인 팀
-            <span class="phrase">이 있습니까?</span>
+              <div class="title">
+              참여중인 팀
+              <span class="phrase">이 있습니까?</span>
+            </div>
             <button
               type="button"
               class="btn-close"
@@ -26,7 +28,7 @@
           id="modalDescription"
         >
           <slot name="body">
-            <input type="text" placeholder="   팀 URL을 입력해주세요."/>
+            <v-text-field solo type="text" class="text-field" v-model="input_url" placeholder="   팀 URL을 입력해주세요."/>
           </slot>
         </section>
 
@@ -36,7 +38,7 @@
             <button type="button" class="btn-gray" @click="close" aria-label="Close modal">OK</button>
           </slot>
         </footer>
-      </div>
+      </v-layout>
     </div>
   </transition>
 </template>
@@ -44,9 +46,14 @@
 <script>
   export default {
     name: 'AddTeamModal',
+    data(){
+      return{
+        input_url : ''
+      }
+    },
     methods: {
       close() {
-        this.$emit('close');
+        this.$emit('close', this.input_url);
       },
       create(){
         //  팀 생성하기 모달 창 연결
@@ -89,32 +96,63 @@
     flex-direction: column;
   }
 
-  .modal-header,
-  .modal-footer {
-    padding: 15px;
-    display: flex;
-  }
-
   .modal-header {
     border-bottom: 1px solid #eeeeee;
     color:#32a852;
     font-size: 23px;
     text-align:center;
     font-weight: 800;
-    margin-left: 25%;
     justify-content: space-between;
   }
-
-  .phrase{
-      margin-left: -95px;
+.phrase{
       color:rgb(77, 77, 77);
   }
-
-  .modal-footer {
-    border-top: 1px solid #eeeeee;
-    justify-content: flex-end;
+.text-field{
+      margin-left:2%;
+      max-width:95%;
+}
+  /* Device */
+@media all and (max-width:765px) {
+  .title{
+        margin-top : 5px;
+        text-align:center;
+        margin-left:22.5%;
+        font-size: 22px;
   }
-
+  .modal-header,
+  .modal-footer{
+        margin-left: 5%;
+        padding: 3px;
+        display: flex;
+  }
+}
+/* Tablet Device */
+@media all and (min-width:768px) and (max-width:1024px) {
+   .title{
+        text-align: center;
+        margin-left:22%;
+        font-size: 25px;
+   }
+   .modal-header,
+   .modal-footer{
+        padding: 45px;
+        display: flex;
+  }
+}
+/* Desktop Device */
+@media all and (min-width:1025px) {
+  .title {
+        margin-top : 6px;
+        text-align: center;
+        margin-left:34%;
+        font-size: 28px;
+  }
+   .modal-header,
+   .modal-footer{
+        padding: 8px;
+        display: flex;
+  }
+}
   .modal-body {
     position: relative;
     padding: 20px 10px;
@@ -167,5 +205,4 @@ button.btn-gray {
     border: 1px solid #32a852;
     border-radius: 0.3rem;
   }
-</style>
 </style>

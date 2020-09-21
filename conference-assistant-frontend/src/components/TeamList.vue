@@ -6,8 +6,8 @@
                     <img src="../img/profile.png" >
                     <div class="div-info" >
                         <span>
-                            <h3>{{name}}</h3>
-                            <br>{{email}}
+                            <h3>{{user.name}}</h3>
+                            <br>{{user.email}}
                         </span>
                     </div>
                     <v-btn class="v-btn" rounded x-large color="#4CAF50" href="/Signup">프로필 변경</v-btn>
@@ -15,10 +15,10 @@
             </v-layout>
             <br><br><br><br>
             <v-flex>
-                <TeamForm v-bind:teamlist="teamlist"></TeamForm>
+                <TeamForm v-bind:teamlist="team.teamlist"></TeamForm>
             </v-flex>
             <button type="button" @click="showModal">팀 추가하기</button>
-            <AddTeamModal v-show="isModalVisible" @close="closeModal" @create="showSecondModal"/>
+            <AddTeamModal v-show="isModalVisible" @close="closeModal($event)" @create="showSecondModal"/>
             <CreateTeamModal v-if="isStatusOn"  @submit="closeSecondModal" @close="closeSecondModal"/>
         </v-layout>
     </div>
@@ -39,14 +39,14 @@ export default {
         TeamForm
     },
     created(){
-        const user_key= this.user_key;
+        const user_key= this.user.user_key;
         axios.get('http://localhost:8000/teams/'+`${user_key}`, user_key).then(res=>{
-            this.rtn = res.data
+            const rtn = res.data
 
-            if(this.rtn != ''){
+            if(rtn != ''){
 
                 EventBus.$emit('teamitem',{
-                    teamitem : this.rtn
+                    teamitem : rtn
                 })
 
             }
@@ -60,20 +60,44 @@ export default {
             isStatusOn : false, // 두번째 모달 v-show
             isModalVisible: false,
             isSecondModalVisible : false,
-            teamlist : [],
-            rtn : '',
-            id : decoded.identity.id,
-            name : decoded.identity.name,
-            email : decoded.identity.email,
-            user_key : decoded.identity.user_key,
-            teamname: ''
+            team: {
+                teamlist : [],
+                url : '',
+                teamname: ''
+            },
+            user : {
+                id : decoded.identity.id,
+                name : decoded.identity.name,
+                email : decoded.identity.email,
+                user_key : decoded.identity.user_key
+            }
         };
     },
     methods:{
         showModal(){
             this.isModalVisible = true;
         },
-        closeModal(){
+        closeModal(url){
+            if(url == ''){
+                alert('입력한 url이 없습니다. 다시 입력해주세요.');
+                return;
+            }else{
+                const invite_url = url;
+                const user_key = this.user.user_key;
+
+                axios.get('http://localhost:8000/teams/'+`${invite_url}`+'/'+`${user_key}`,invite_url, user_key)
+                    .then((res)=>{
+                        if(res.data !=''){
+                            this.$router.go(0);
+                        }else{
+                            alert('입력한 url에 해당하는 팀이 존재하지 않습니다.');
+                            this.isModalVisible = false;
+                        }
+                    }).catch((err)=>{
+                        alert('다시 시도해주세요.');
+                        console.log(err)
+                    });
+            }
             this.isModalVisible = false;
         },
         showSecondModal(){
@@ -93,7 +117,7 @@ export default {
                }
                axios.post("http://localhost:8000/teams/enroll",{
                    teamname : teamname,
-                   id : this.id
+                   id : this.user.id
 
                }).then((res)=>{
                    if(res.data.duplicate){
@@ -104,8 +128,8 @@ export default {
                         this.isSecondModalVisible = false;
 
                         // ** 추후 수정
-                        this.teamlist.push(teamname);
-                        this.teamname = teamname;
+                        this.team.teamlist.push(teamname);
+                        this.team.teamname = teamname;
                    }
                }).catch((err)=>{
                    alert('다시 입력해주세요.')

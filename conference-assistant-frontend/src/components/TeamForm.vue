@@ -3,7 +3,7 @@
       <v-layout column>
             <router-link clsss="router-main" :to="{name: 'MainPage', params:{user_key : user_key, teamname : teaminfo.teamname, team_key : teaminfo.team_key}}">
                 <v-flex>
-                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name, team.team_key)">
+                    <div class="team-item" v-for="(team, index) in teamitem" :key="index" @click="selectedTeamname(team.name, team.team_key, team.invite_url)">
                         <v-btn class="v-btn" style="height:80px;" x-large>
                             <img class="close" src="../img/close.png">
                             <v-layout row>
@@ -11,7 +11,7 @@
                                 <v-layout column class="v-layout">
                                     <p class="team-name">{{team.name}}</p>
                                     <br>
-                                    <p class="p-url">http://{{team.name}}.dure.com</p>
+                                    <p class="p-url">http://{{team.invite_url.substring(2,12)}}.dure.com</p>
                                 </v-layout>
                             </v-layout>
                         </v-btn>
@@ -35,10 +35,9 @@ export default {
             teaminfo : {
                 teamname : '',
                 team_key : '',
+                team_url : ''
             },
             teamitem : '',
-            url : '',
-            created_by : '',
             user_key : decoded.identity.user_key
         }
     },
@@ -48,9 +47,10 @@ export default {
         })
     },
     methods:{
-        selectedTeamname(name, team_key){
+        selectedTeamname(name, team_key, url){
             this.teaminfo.teamname = name;
             this.teaminfo.team_key = team_key;
+            this.teaminfo.team_url = url.substring(2,12);
 
             sessionStorage.setItem("teaminfo", JSON.stringify(this.teaminfo))
         }
